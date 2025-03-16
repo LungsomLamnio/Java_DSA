@@ -13,11 +13,12 @@ public class HashMapCode {
         }
 
         private int n;
+        private int N;
         private LinkedList<Node> buckets[];
 
         @SuppressWarnings("unchecked")
         public HashMap() {
-            this.n = 4;
+            this.N = 4;
             this.buckets = new LinkedList[4];
             for(int i=0; i<4; i++) {
                 this.buckets[i] = new LinkedList<>();
@@ -26,7 +27,7 @@ public class HashMapCode {
 
         private int hashFunction(K key) {
             int hc = key.hashCode();
-            return Math.abs(hc) % buckets.length;
+            return Math.abs(hc) % N;
         }
 
         private int searchInLL(K key, int bi) {
@@ -44,6 +45,16 @@ public class HashMapCode {
             return -1;
         }
 
+        private void rehash() {
+            LinkedList<Node> oldBucket[] = buckets;
+            buckets = new LinkedList[N*2];
+            N *= 2;
+
+            for(int i=0; i<buckets.length; i++) {
+                buckets[i] = new LinkedList<>();
+            }
+        }
+
         public void put(K key, V value) {
             int bi = hashFunction(key);
             int di = searchInLL(key, bi);
@@ -54,6 +65,11 @@ public class HashMapCode {
             } else {
                 buckets[bi].add(new Node(key, value));
                 n++;
+            }
+
+            double lambda = (double)n/N;
+            if(lambda > 2.0) {
+                rehash();
             }
         }
     }
