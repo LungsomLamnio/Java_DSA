@@ -14,6 +14,6 @@ public class Classroom {
 
     public static Node root = new Node();
     public static void main(String[] args) {
-        
+        String words[] = {"the", "a", "there", "their", "any", "thee"};
     }
 }
