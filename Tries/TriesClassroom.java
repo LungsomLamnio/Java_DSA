@@ -1,6 +1,4 @@
-package Tries;
-
-public class Classroom {
+public class TriesClassroom {
     static class Node {
         Node children[] = new Node[26];
         boolean eow = false;
@@ -21,9 +19,9 @@ public class Classroom {
             if(curr.children[indx] == null) {
                 curr.children[indx] = new Node();
             }
+
             curr = curr.children[indx];
         }
-
         curr.eow = true;
     }
     public static void main(String[] args) {
