@@ -24,11 +24,26 @@ public class TriesClassroom {
         }
         curr.eow = true;
     }
+
+    public static boolean search(String key) {
+        Node curr = root;
+        for(int i=0; i<key.length(); i++) {
+            int indx = key.charAt(i) - 'a';
+            if(curr.children[indx] == null) {
+                return false;
+            }
+            curr = curr.children[indx];
+        }
+
+        return curr.eow == true;
+    }
     public static void main(String[] args) {
         String words[] = {"the", "a", "there", "their", "any", "thee"};
 
         for(int i=0; i<words.length; i++) {
             insert(words[i]);
         }
+
+        System.out.println(search("then"));
     }
 }
