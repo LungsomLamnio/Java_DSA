@@ -55,14 +55,26 @@ public class Tries2 {
 
         return true;
     }
-    public static void main(String[] args) {
-        String words[] = {"apple", "app", "mango", "man", "women"};
 
-        for(int i=0; i<words.length; i++) {
-            insert(words[i]);
+    public static int countNodes(Node root) {
+        if(root == null) {
+            return 0;
         }
 
-        // System.out.println(search("mangos"));
-        System.out.println(startsWith("women"));
+        int count = 0;
+        for(int i=0; i<26; i++) {
+            count += countNodes(root.children[i]);
+        }
+
+        return count + 1;
+    }
+    public static void main(String[] args) {
+        String str = "ababa";
+
+        for(int i=0; i<str.length(); i++) {
+            insert(str.substring(i));
+        }
+
+        System.out.println(countNodes(root));
     }
 }
