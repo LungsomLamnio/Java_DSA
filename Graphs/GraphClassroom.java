@@ -74,11 +74,28 @@ public class GraphClassroom {
             }
         }
     }
+
+    public static boolean hasPath(ArrayList<Edge> graph[], boolean isVisited[], int src, int dest) {
+        if(src == dest) {
+            return true;
+        }
+
+        isVisited[src] = true;
+
+        for(int i=0; i<graph[src].size(); i++) {
+            Edge e = graph[src].get(i);
+            if(!isVisited[e.dest] && hasPath(graph, isVisited, e.dest, dest)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
     public static void main(String[] args) {
         int V = 7;
         ArrayList<Edge> graph[] = new ArrayList[V];
 
         createGraph(graph);
-        DFS(graph, 0, new boolean[V]);
+        System.out.println(hasPath(graph, new boolean[V], 0, 5));
     }
 }
