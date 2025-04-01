@@ -62,11 +62,23 @@ public class GraphClassroom {
             }
         }
     }
+
+    public static void DFS(ArrayList<Edge> graph[], int curr, boolean isVisited[]) {
+        System.out.print(curr + " ");
+        isVisited[curr] = true;
+
+        for(int i=0; i<graph[curr].size(); i++) {
+            Edge e = graph[curr].get(i);
+            if(!isVisited[e.dest]) {
+                DFS(graph, e.dest, isVisited);
+            }
+        }
+    }
     public static void main(String[] args) {
         int V = 7;
         ArrayList<Edge> graph[] = new ArrayList[V];
 
         createGraph(graph);
-        BFS(graph);
+        DFS(graph, 0, new boolean[V]);
     }
 }
