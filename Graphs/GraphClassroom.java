@@ -43,9 +43,17 @@ public class GraphClassroom {
         graph[1].add(new Edge(6, 5, 1));
     }
 
-    public static void BFS(ArrayList<Edge> graph[]) {
-        Queue<Integer> q = new LinkedList<>();
+    public static void bfs(ArrayList<Edge> graph[]) {
         boolean visited[] = new boolean[graph.length];
+        for(int i=0; i<graph.length; i++) {
+            if(!visited[i]) {
+                bfsUtil(graph, visited);
+            }
+        }
+    }
+
+    public static void bfsUtil(ArrayList<Edge> graph[], boolean visited[]) {
+        Queue<Integer> q = new LinkedList<>();
 
         q.add(0);
 
@@ -63,14 +71,22 @@ public class GraphClassroom {
         }
     }
 
-    public static void DFS(ArrayList<Edge> graph[], int curr, boolean isVisited[]) {
+    public static void dfs(ArrayList<Edge> graph[]) {
+        boolean vis[] = new boolean[graph.length];
+
+        for(int i=0; i<graph.length; i++) {
+            dfsUtil(graph, i, vis);
+        }
+    }
+
+    public static void dfsUtil(ArrayList<Edge> graph[], int curr, boolean isVisited[]) {
         System.out.print(curr + " ");
         isVisited[curr] = true;
 
         for(int i=0; i<graph[curr].size(); i++) {
             Edge e = graph[curr].get(i);
             if(!isVisited[e.dest]) {
-                DFS(graph, e.dest, isVisited);
+                dfsUtil(graph, e.dest, isVisited);
             }
         }
     }
