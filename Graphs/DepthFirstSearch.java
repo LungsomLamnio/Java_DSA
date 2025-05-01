@@ -57,12 +57,29 @@ public class DepthFirstSearch {
             }
         }
     }
+
+    public static boolean hasPath(ArrayList<Edge> graph[], int src, int dest, boolean isVisited[]) {
+        if(src == dest) {
+            return true;
+        }
+
+        isVisited[src] = true;
+
+        for(int i=0; i<graph[src].size(); i++) {
+            Edge e = graph[src].get(i);
+            if(!isVisited[e.dest] && hasPath(graph, e.dest, dest, isVisited)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
     public static void main(String[] args) {
         int V = 7;
         ArrayList<Edge> graph[] = new ArrayList[V];
         boolean isVisited[] = new boolean[graph.length];
 
         createGraph(graph);
-        dfs(graph, 0, isVisited);
+        System.out.println(hasPath(graph, 0, 5, isVisited));
     }
 }
