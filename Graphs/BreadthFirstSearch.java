@@ -46,6 +46,15 @@ public class BreadthFirstSearch {
 
     public static void bfs(ArrayList<Edge> graph[]) {
         boolean isVisited[] = new boolean[graph.length];
+
+        for(int i=0; i<graph.length; i++) {
+            if(!isVisited[i]) {
+                bfsUtil(graph, isVisited);
+            }
+        }
+    }
+
+    public static void bfsUtil(ArrayList<Edge> graph[], boolean isVisited[]) {
         Queue<Integer> q = new LinkedList<>();
 
         //starting point
