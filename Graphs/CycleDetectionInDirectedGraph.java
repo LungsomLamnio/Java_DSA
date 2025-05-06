@@ -81,6 +81,8 @@ public class CycleDetectionInDirectedGraph {
             graph[i] = new ArrayList<>();
         }
 
+        graph[0].add(new Edge(0, 3));
+        
         graph[2].add(new Edge(2, 3));
 
         graph[3].add(new Edge(3, 1));
@@ -126,10 +128,51 @@ public class CycleDetectionInDirectedGraph {
         }
         System.out.println();
     }
+
+    public static void topSortUtil(ArrayList<Edge> graph[], int curr, boolean isVisited[], Stack<Integer> s) {
+        isVisited[curr] = true;
+
+        for(int i=0; i<graph[curr].size(); i++) {
+            Edge e = graph[curr].get(i);
+            if(!isVisited[e.dest]) {
+                topSortUtil(graph, e.dest, isVisited, s);
+            }
+        }
+
+        s.push(curr);
+    }
+
+    public static void topSort(ArrayList<Edge> graph[]) {
+        boolean isVisited[] = new boolean[graph.length];
+        Stack<Integer> s = new Stack<>();
+
+        for(int i=0; i<graph.length; i++) {
+            if(!isVisited[i]) {
+                topSortUtil(graph, i, isVisited, s);
+            }
+        }
+
+        while(!s.isEmpty()) {
+            System.out.print(s.pop() + " ");
+        }
+    }
+
+    public static void allPaths(ArrayList<Edge> graph[], int src, int dest, StringBuilder sb) {
+        if(src == dest) {
+            System.out.println(sb.append(dest));
+            sb.setLength(0);
+            return;
+        }
+
+        for(int i=0; i<graph[src].size(); i++) {
+            Edge e = graph[src].get(i);
+            allPaths(graph, e.dest, dest, sb.append(src));
+        }
+    }
     public static void main(String[] args) {
         int V = 6;
         ArrayList<Edge> graph[] = new ArrayList[V];
         createGraph(graph);
-        topologicalSortBFS(graph);
+        allPaths(graph, 5, 1, new StringBuilder(""));
     }
 }
