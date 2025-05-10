@@ -1,7 +1,6 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Queue;
-
+import java.util.LinkedList;
 
 public class Questions {
     static class Edge {
@@ -17,12 +16,12 @@ public class Questions {
     }
 
     static class Info {
-        int v;
+        int city;
         int cost;
         int stops;
 
-        public Info(int v, int cost, int stops) {
-            this.v = v;
+        public Info(int city, int cost, int stops) {
+            this.city = city;
             this.cost = cost;
             this.stops = stops;
         }
@@ -38,21 +37,23 @@ public class Questions {
             int dest = flights[i][1];
             int wt = flights[i][2];
 
-            Edge e = new Edge(src, dest, wt);
-            graph[src].add(e);
+            graph[src].add(new Edge(src, dest, wt));
         }
     }
 
-    public static int cheapestFlight(int flights[][], ArrayList<Edge> graph[], int src, int dest, int k) {
-        int dist[] = new int[graph.length];
-        for(int i=0; i<graph.length; i++) {
+    public static int cheapestFlight(int n, int flights[][], int src, int dest, int k) {
+        ArrayList<Edge> graph[] = new ArrayList[n];
+        createGraph(graph, flights);
+
+        int dist[] = new int[n];
+        for(int i=0; i<dist.length; i++) {
             if(i != src) {
                 dist[i] = Integer.MAX_VALUE;
             }
         }
 
         Queue<Info> q = new LinkedList<>();
-        q.add(new Info(src,  0, 0));
+        q.add(new Info(src, 0, 0));
 
         while(!q.isEmpty()) {
             Info curr = q.remove();
@@ -60,15 +61,14 @@ public class Questions {
                 continue;
             }
 
-            for(int i=0; i<graph[curr.v].size(); i++) {
-                Edge e = graph[curr.v].get(i);
-                int u = e.src;
+            for(int i=0; i<graph[curr.city].size(); i++) {
+                Edge e = graph[curr.city].get(i);
                 int v = e.dest;
                 int wt = e.wt;
 
-                if(dist[u] + wt < dist[v] && curr.stops <= k) {
+                if(curr.cost + wt < dist[v] && curr.stops <= k) {
                     dist[v] = curr.cost + wt;
-                    q.add(new Info(v, dist[v], curr.cost + 1));
+                    q.add(new Info(v, dist[v], curr.stops+1));
                 }
             }
         }
@@ -78,17 +78,19 @@ public class Questions {
         } else {
             return dist[dest];
         }
-
     }
     public static void main(String[] args) {
-        int flights[][] = {{0,1,100}, {1,2,100}, {2,0,100}, {1,3,600}, {2,3,200}};
+        int n = 4;
+        int flights[][] = {
+            {0,1,100},
+            {1,2,100},
+            {2,0,100},
+            {1,3,600},
+            {2,3,200},
+        };
         int src = 0;
         int dest = 3;
         int k = 1;
-        int V = 4;
-
-        ArrayList<Edge> graph[] = new ArrayList[V];
-        createGraph(graph, flights);
-        System.out.println(cheapestFlight(flights, graph, src, dest, k));
+        System.out.println(cheapestFlight(n, flights, src, dest, k));
     }
 }
