@@ -43,9 +43,17 @@ public class BFS_Revision {
     }
 
     public static void bfs(ArrayList<Edge> graph[]) {
-        Queue<Integer> q = new LinkedList<>();
         boolean isVisited[] = new boolean[graph.length];
 
+        for(int i=0; i<graph.length; i++) {
+            if(!isVisited[i]) {
+                bfsUtil(graph, isVisited);
+            }
+        }
+    }
+
+    public static void bfsUtil(ArrayList<Edge> graph[], boolean isVisited[]) {
+        Queue<Integer> q = new LinkedList<>();
         q.add(0);
         while(!q.isEmpty()) {
             int curr = q.remove();
@@ -61,14 +69,24 @@ public class BFS_Revision {
         }
     }
 
-    public static void dfs(ArrayList<Edge> graph[], boolean isVisited[], int i) {
+    public static void dfs(ArrayList<Edge> graph[]) {
+        boolean isVisited[] = new boolean[graph.length];
+
+        for(int i=0; i<graph.length; i++) {
+            if(!isVisited[i]) {
+                dfsUtil(graph, isVisited, i);
+            }
+        }
+    }
+
+    public static void dfsUtil(ArrayList<Edge> graph[], boolean isVisited[], int i) {
         System.out.print(i + " ");
         isVisited[i] = true;
 
         for(int j=0; j<graph[i].size(); j++) {
             Edge e = graph[i].get(j);
             if(!isVisited[e.dest]) {
-                dfs(graph, isVisited, e.dest);
+                dfsUtil(graph, isVisited, e.dest);
             }
         }
     }
@@ -92,9 +110,9 @@ public class BFS_Revision {
         int V = 7;
         ArrayList<Edge> graph[] = new ArrayList[V];
         createGraph(graph);
-        // bfs(graph);
+        // bfsUtil(graph);
 
-        // dfs(graph, new boolean[V], 0);
-        System.out.println(hasPath(graph, 0, 5, new boolean[V]));
+        dfs(graph);
+        // System.out.println(hasPath(graph, 0, 5, new boolean[V]));
     }
 }
