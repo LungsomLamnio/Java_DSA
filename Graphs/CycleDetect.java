@@ -19,7 +19,7 @@ public class CycleDetect {
         }
 
         graph[0].add(new Edge(0, 1));
-        graph[0].add(new Edge(0, 2));
+        graph[0].add(new Edge(0, 4));
         
         graph[1].add(new Edge(1, 0));
         graph[1].add(new Edge(1, 3));
@@ -97,10 +97,41 @@ public class CycleDetect {
         return true;
     }
 
+    public static boolean detectCycleInUndirectedGraph(ArrayList<Edge> graph[]) {
+        boolean isVisited[] = new boolean[graph.length];
+        for(int i=0; i<graph.length; i++) {
+            if(!isVisited[i]) {
+                if(detectCycleInUndirectedGraphUtil(graph, i, -1, isVisited)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean detectCycleInUndirectedGraphUtil(ArrayList<Edge> graph[], int curr, int par, boolean isVisited[]) {
+        isVisited[curr] = true;
+
+        for(int i=0; i<graph[curr].size(); i++) {
+            Edge e = graph[curr].get(i);
+
+            if(!isVisited[e.dest]) {
+                if(detectCycleInUndirectedGraphUtil(graph, e.dest, curr, isVisited)) {
+                    return true;
+                }
+            } else if(isVisited[e.dest] && e.dest != par) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static void main(String[] args) {
-        int V = 7;
+        int V = 5;
         ArrayList<Edge> graph[] = new ArrayList[V];
         createGraph(graph);
-        System.out.println(isBipartite(graph));
+        System.out.println(detectCycle(graph));
     }
 }
