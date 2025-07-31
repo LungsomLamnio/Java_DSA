@@ -69,10 +69,32 @@ public class GraphTraversal {
             }
         }
     }
+
+    public static void dfs(ArrayList<Edge> graph[]) {
+        boolean isVisited[] = new boolean[graph.length];
+
+        for(int i=0; i<graph.length; i++) {
+            if(!isVisited[i]) {
+                dfsUtil(graph, isVisited, i);
+            }
+        }
+    }
+
+    public static void dfsUtil(ArrayList<Edge> graph[], boolean isVisited[], int curr) {
+        isVisited[curr] = true;
+        System.out.print(curr + " ");
+
+        for(int i=0; i<graph[curr].size(); i++) {
+            Edge e = graph[curr].get(i);
+            if(!isVisited[e.dest]) {
+                dfsUtil(graph, isVisited, e.dest);
+            }
+        }
+    }
     public static void main(String[] args) {
         int V = 7;
         ArrayList<Edge> graph[] = new ArrayList[V];
         createGraph(graph);
-        bfs(graph);
+        dfs(graph);
     }
 }
