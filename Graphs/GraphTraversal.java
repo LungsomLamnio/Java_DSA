@@ -91,10 +91,30 @@ public class GraphTraversal {
             }
         }
     }
+
+    public static boolean hasPath(ArrayList<Edge> graph[], int src, int dest, boolean isVisited[]) {
+        if(src == dest) {
+            return true;
+        }
+
+        isVisited[src] = true;
+
+        for(int i=0; i<graph[src].size(); i++) {
+            Edge e = graph[src].get(i);
+            if(!isVisited[e.dest]) {
+                if(hasPath(graph, e.dest, dest, isVisited)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public static void main(String[] args) {
         int V = 7;
         ArrayList<Edge> graph[] = new ArrayList[V];
         createGraph(graph);
-        dfs(graph);
+        System.out.println(hasPath(graph, 0, 7, new boolean[V]));
     }
 }
