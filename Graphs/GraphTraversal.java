@@ -28,18 +28,18 @@ public class GraphTraversal {
         graph[2].add(new Edge(2, 4));
 
         graph[3].add(new Edge(3, 1));
-        graph[3].add(new Edge(3, 4));
-        graph[3].add(new Edge(3, 5));
+        // graph[3].add(new Edge(3, 4));
+        // graph[3].add(new Edge(3, 5));
 
         graph[4].add(new Edge(4, 2));
-        graph[4].add(new Edge(4, 3));
+        // graph[4].add(new Edge(4, 3));
         graph[4].add(new Edge(4, 5));
 
-        graph[5].add(new Edge(5, 3));
+        // graph[5].add(new Edge(5, 3));
         graph[5].add(new Edge(5, 4));
         graph[5].add(new Edge(5, 6));
 
-        graph[5].add(new Edge(6, 5));
+        graph[6].add(new Edge(6, 5));
     }
 
     public static void bfs(ArrayList<Edge> graph[]) {
@@ -111,10 +111,39 @@ public class GraphTraversal {
         return false;
     }
 
+    public static boolean detectCycleUndirected(ArrayList<Edge> graph[]) {
+        boolean isVisited[] = new boolean[graph.length];
+
+        for(int i=0; i<graph.length; i++) {
+            if(!isVisited[i]) {
+                if(detectCycleUndirectedUtil(graph, i, -1, isVisited)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean detectCycleUndirectedUtil(ArrayList<Edge> graph[], int curr, int par, boolean isVisited[]) {
+        isVisited[curr] = true;
+        for(int i=0; i<graph[curr].size(); i++) {
+            Edge e = graph[curr].get(i);
+
+            if(!isVisited[e.dest]) {
+                if(detectCycleUndirectedUtil(graph, e.dest, curr, isVisited)) {
+                    return true;
+                }
+            } else if(isVisited[e.dest] && e.dest != par) {
+                    return true;
+                }
+            }
+        return false;
+    }
+
     public static void main(String[] args) {
         int V = 7;
         ArrayList<Edge> graph[] = new ArrayList[V];
         createGraph(graph);
-        System.out.println(hasPath(graph, 0, 7, new boolean[V]));
+        System.out.println(detectCycleUndirected(graph));
     }
 }
