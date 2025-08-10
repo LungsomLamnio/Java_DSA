@@ -25,21 +25,21 @@ public class GraphTraversal {
         graph[1].add(new Edge(1, 3));
 
         graph[2].add(new Edge(2, 0));
-        graph[2].add(new Edge(2, 4));
+        graph[2].add(new Edge(2, 3));
 
         graph[3].add(new Edge(3, 1));
-        // graph[3].add(new Edge(3, 4));
+        graph[3].add(new Edge(3, 2));
         // graph[3].add(new Edge(3, 5));
 
-        graph[4].add(new Edge(4, 2));
+        // graph[4].add(new Edge(4, 2));
         // graph[4].add(new Edge(4, 3));
-        graph[4].add(new Edge(4, 5));
+        // graph[4].add(new Edge(4, 5));
 
         // graph[5].add(new Edge(5, 3));
-        graph[5].add(new Edge(5, 4));
-        graph[5].add(new Edge(5, 6));
+        // graph[5].add(new Edge(5, 4));
+        // graph[5].add(new Edge(5, 6));
 
-        graph[6].add(new Edge(6, 5));
+        // graph[6].add(new Edge(6, 5));
     }
 
     public static void bfs(ArrayList<Edge> graph[]) {
@@ -140,10 +140,43 @@ public class GraphTraversal {
         return false;
     }
 
+    public static boolean isBipartite(ArrayList<Edge> graph[]) {
+        int color[] = new int[graph.length];
+        for(int i=0; i<graph.length; i++) {
+            color[i] = -1;
+        }
+
+        Queue<Integer> q = new LinkedList<>();
+
+        for(int i=0; i<graph.length; i++) {
+            if(color[i] == -1) {
+                color[i] = 0;
+
+                q.add(i);
+
+                while(!q.isEmpty()) {
+                    int curr = q.remove();
+                    for(int j=0; j<graph[curr].size(); j++) {
+                        Edge e = graph[curr].get(j);
+
+                        if(color[e.dest] == -1) {
+                            int nextColor = color[curr] == 0 ? 1 : 0;
+                            color[e.dest] = nextColor;
+                            q.add(e.dest);
+                        } else if(color[e.dest] == color[curr]) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         int V = 7;
         ArrayList<Edge> graph[] = new ArrayList[V];
         createGraph(graph);
-        System.out.println(detectCycleUndirected(graph));
+        System.out.println(isBipartite(graph));
     }
 }
