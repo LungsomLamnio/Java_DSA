@@ -20,27 +20,27 @@ public class GraphTraversal {
         }
 
         // graph[0].add(new Edge(0, 1));
-        graph[0].add(new Edge(0, 2));
+        // graph[0].add(new Edge(0, 2));
 
-        graph[1].add(new Edge(1, 0));
+        // graph[1].add(new Edge(1, 0));
         // graph[1].add(new Edge(1, 3));
 
         graph[2].add(new Edge(2, 3));
         // graph[2].add(new Edge(2, 4));
 
-        graph[3].add(new Edge(3, 0));
+        graph[3].add(new Edge(3, 1));
         // graph[3].add(new Edge(3, 4));
 
-        // graph[4].add(new Edge(4, 2));
-        // graph[4].add(new Edge(4, 3));
+        graph[4].add(new Edge(4, 0));
+        graph[4].add(new Edge(4, 1));
         // graph[3].add(new Edge(3, 5));
 
         // graph[4].add(new Edge(4, 2));
         // graph[4].add(new Edge(4, 3));
         // graph[4].add(new Edge(4, 5));
 
-        // graph[5].add(new Edge(5, 3));
-        // graph[5].add(new Edge(5, 4));
+        graph[5].add(new Edge(5, 0));
+        graph[5].add(new Edge(5, 2));
         // graph[5].add(new Edge(5, 6));
 
         // graph[6].add(new Edge(6, 5));
@@ -244,10 +244,38 @@ public class GraphTraversal {
         return false;
      }
 
+     public static void topSort(ArrayList<Edge> graph[]) {
+        boolean isVisited[] = new boolean[graph.length];
+        Stack<Integer> s = new Stack<>();
+
+        for(int i=0; i<graph.length; i++) {
+            if(!isVisited[i]) {
+                topSortUtil(graph, i, isVisited, s);
+            }
+        }
+
+        while(!s.isEmpty()) {
+            System.out.print(s.pop() + " ");
+        }
+     }
+
+     public static void topSortUtil(ArrayList<Edge> graph[], int curr, boolean isVisited[], Stack<Integer> s) {
+        isVisited[curr] = true;
+
+        for(int i=0; i<graph[curr].size(); i++) {
+            Edge e = graph[curr].get(i);
+
+            if(!isVisited[e.dest]) {
+                topSortUtil(graph, e.dest, isVisited, s);
+            }
+        }
+        s.push(curr);
+     }
+
     public static void main(String[] args) {
-        int V = 7;
+        int V = 6;
         ArrayList<Edge> graph[] = new ArrayList[V];
         createGraph(graph);
-        System.out.println(detectCycleDirected(graph));
+        topSort(graph);
     }
 }
