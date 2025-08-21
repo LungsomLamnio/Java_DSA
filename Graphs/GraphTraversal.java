@@ -270,12 +270,46 @@ public class GraphTraversal {
             }
         }
         s.push(curr);
-     }
+    }
+
+    public static void calIndegree(ArrayList<Edge> graph[], int inDegree[]) {
+        for(int i=0; i<graph.length; i++) {
+            for(int j=0; j<graph[i].size(); j++) {
+                Edge e = graph[i].get(j);
+                inDegree[e.dest] += 1;
+            }
+        }
+    }
+
+    public static void kahnsAlgo(ArrayList<Edge> graph[]) {
+        Queue<Integer> q = new LinkedList<>();
+        int inDegree[] = new int[graph.length];
+        calIndegree(graph, inDegree);
+
+        for(int i=0; i<graph.length; i++) {
+            if(inDegree[i] == 0) {
+                q.add(i);
+            }
+        }
+
+        while(!q.isEmpty()) {
+            int curr = q.remove();
+            System.out.print(curr + " ");
+
+            for(int i=0; i<graph[curr].size(); i++) {
+                Edge e = graph[curr].get(i);
+                inDegree[e.dest]--;
+                if(inDegree[e.dest] == 0) {
+                    q.add(e.dest);
+                }
+            }
+        }
+    }
 
     public static void main(String[] args) {
         int V = 6;
         ArrayList<Edge> graph[] = new ArrayList[V];
         createGraph(graph);
-        topSort(graph);
+        kahnsAlgo(graph);
     }
 }
