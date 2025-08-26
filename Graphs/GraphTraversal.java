@@ -20,7 +20,7 @@ public class GraphTraversal {
         }
 
         // graph[0].add(new Edge(0, 1));
-        // graph[0].add(new Edge(0, 2));
+        graph[0].add(new Edge(0, 3));
 
         // graph[1].add(new Edge(1, 0));
         // graph[1].add(new Edge(1, 3));
@@ -306,10 +306,21 @@ public class GraphTraversal {
         }
     }
 
+    public static void allPaths(ArrayList<Edge> graph[], int src, int dest, String path) {
+        if(src == dest) {
+            System.out.println(path+dest);
+        }
+
+        for(int i=0; i<graph[src].size(); i++) {
+            Edge e = graph[src].get(i);
+            allPaths(graph, e.dest, dest, path+src);
+        }
+    }
+
     public static void main(String[] args) {
         int V = 6;
         ArrayList<Edge> graph[] = new ArrayList[V];
         createGraph(graph);
-        kahnsAlgo(graph);
+        allPaths(graph, 5, 1, new String(""));
     }
 }
