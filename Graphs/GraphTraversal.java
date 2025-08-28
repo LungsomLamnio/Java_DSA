@@ -321,6 +321,60 @@ public class GraphTraversal {
         }
     }
 
+    // static class Pair implements Comparable<Pair>{
+    //     int node;
+    //     int path;
+
+    //     public Pair(int node, int path) {
+    //         this.node = node;
+    //         this.path = path;
+    //     }
+
+    //     @Override
+    //     public int compareTo(Pair p2) {
+    //         return this.path - p2.path;
+    //     }
+    // }
+
+    // public static void dijkstra(ArrayList<Edge> graph[], int src) {
+    //     int dist[] = new int[graph.length];
+    //     for(int i=0; i<graph.length; i++) {
+    //         if(i != src) {
+    //             dist[i] = Integer.MAX_VALUE;
+    //         }
+    //     }
+
+    //     PriorityQueue<Pair> pq = new PriorityQueue<>();
+    //     boolean isVisited[] = new boolean[graph.length];
+    //     pq.add(new Pair(src, 0));
+
+    //     while(!pq.isEmpty()) {
+    //         Pair curr = pq.remove();
+
+    //         if(!isVisited[curr.node]) {
+    //             isVisited[curr.node] = true;
+
+    //             for(int i=0; i<graph[curr.node].size(); i++) {
+    //                 Edge e = graph[curr.node].get(i);
+
+    //                 int u = e.src;
+    //                 int v = e.dest;
+    //                 int wt = e.wt;
+
+    //                 if(dist[u] + wt < dist[v]) {
+    //                     dist[v] = dist[u] + wt;
+    //                     pq.add(new Pair(v, dist[v]));
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     for(int i=0; i<dist.length; i++) {
+    //         System.out.print(dist[i] + " ");
+    //     }
+    //     System.out.println();
+    // }
+
     static class Pair implements Comparable<Pair>{
         int node;
         int path;
@@ -339,18 +393,17 @@ public class GraphTraversal {
     public static void dijkstra(ArrayList<Edge> graph[], int src) {
         int dist[] = new int[graph.length];
         for(int i=0; i<graph.length; i++) {
-            if(i != src) {
+            if(i != 0) {
                 dist[i] = Integer.MAX_VALUE;
             }
         }
 
-        PriorityQueue<Pair> pq = new PriorityQueue<>();
         boolean isVisited[] = new boolean[graph.length];
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
         pq.add(new Pair(src, 0));
 
         while(!pq.isEmpty()) {
             Pair curr = pq.remove();
-
             if(!isVisited[curr.node]) {
                 isVisited[curr.node] = true;
 
@@ -372,7 +425,6 @@ public class GraphTraversal {
         for(int i=0; i<dist.length; i++) {
             System.out.print(dist[i] + " ");
         }
-        System.out.println();
     }
 
     public static void main(String[] args) {
