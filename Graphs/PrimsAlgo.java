@@ -70,6 +70,7 @@ class Prims {
         }
         System.out.println("The MST cost is: " + cost);
     }
+
     public static void main(String[] args) {
         int V = 4;
         ArrayList<Edge> graph[] = new ArrayList[V];
