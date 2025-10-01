@@ -28,36 +28,36 @@ public class TarjansAlgo {
 
         graph[3].add(new Edge(3, 0));
         graph[3].add(new Edge(3, 4));
-        graph[3].add(new Edge(3, 5));
+        // graph[3].add(new Edge(3, 5));
 
         graph[4].add(new Edge(4, 3));
-        graph[4].add(new Edge(4, 5));
+        // graph[4].add(new Edge(4, 5));
 
-        graph[5].add(new Edge(5, 3));
-        graph[5].add(new Edge(5, 4));
+        // graph[5].add(new Edge(5, 3));
+        // graph[5].add(new Edge(5, 4));
     }
 
-    public static void dfs(ArrayList<Edge> graph[], int curr, int par, int dt[], int low[], boolean isVisited[], int time) {
-        isVisited[curr] = true;
-        dt[curr] = low[curr] = ++time;
+    // public static void dfs(ArrayList<Edge> graph[], int curr, int par, int dt[], int low[], boolean isVisited[], int time) {
+    //     isVisited[curr] = true;
+    //     dt[curr] = low[curr] = ++time;
 
-        for(int i=0; i<graph[curr].size(); i++) {
-            Edge e = graph[curr].get(i);
+    //     for(int i=0; i<graph[curr].size(); i++) {
+    //         Edge e = graph[curr].get(i);
 
-            if(e.dest == par) {
-                continue;
-            } else if(!isVisited[e.dest]) {
-                dfs(graph, e.dest, curr, dt, low, isVisited, time);
-                low[curr] = Math.min(low[curr], low[e.dest]);
+    //         if(e.dest == par) {
+    //             continue;
+    //         } else if(!isVisited[e.dest]) {
+    //             dfs(graph, e.dest, curr, dt, low, isVisited, time);
+    //             low[curr] = Math.min(low[curr], low[e.dest]);
 
-                if(dt[curr] < low[e.dest]) {
-                    System.out.println("Bridge: " + curr + " ------- " + e.dest);
-                }
-            } else {
-                low[curr] = Math.min(low[curr], dt[e.dest]);
-            }
-        }
-    }
+    //             if(dt[curr] < low[e.dest]) {
+    //                 System.out.println("Bridge: " + curr + " ------- " + e.dest);
+    //             }
+    //         } else {
+    //             low[curr] = Math.min(low[curr], dt[e.dest]);
+    //         }
+    //     }
+    // }
 
     public static void tarjansBridge(ArrayList<Edge> graph[], int V) {
         int dt[] = new int[V];
@@ -71,10 +71,51 @@ public class TarjansAlgo {
             }
         }
     }
+
+    public static void dfs(ArrayList<Edge> graph[], int curr, int par, int dt[], int low[], boolean isVisited[], int time) {
+        isVisited[curr] = true;
+        dt[curr] = low[curr] = ++time;
+        int children = 0;
+
+        for(int i=0; i<graph[curr].size(); i++) {
+            Edge e = graph[curr].get(i);
+
+            int neigh = e.dest;
+            if(neigh == par) {
+                continue;
+            } else if(isVisited[neigh]) {
+                low[curr] = Math.min(low[curr], dt[neigh]);
+            } else {
+                dfs(graph, neigh, curr, dt, low, isVisited, time);
+                if(par != -1 && dt[curr] <= low[neigh]) {
+                    System.out.println("AP: " + curr);
+                }
+                children++;
+            }
+        }
+
+        if(par == -1 && children > 1) {
+            System.out.println("AP: " + curr);
+        }
+    }
+
+    public static void getArticulationPoint(ArrayList<Edge> graph[], int V) {
+        int dt[] = new int[V];
+        int low[] = new int[V];
+        int time = 0;
+        boolean isVisited[] = new boolean[V];
+
+        for(int i=0; i<V; i++) {
+            if(!isVisited[i]) {
+                dfs(graph, i, -1, dt, low, isVisited, time);
+            }
+        }
+    }
     public static void main(String[] args) {
-        int V = 6;
+        int V = 5;
         ArrayList<Edge> graph[] = new ArrayList[V];
         createGraph(graph);
-        tarjansBridge(graph, V);
+        // tarjansBridge(graph, V);
+        getArticulationPoint(graph, V);
     }
 }
