@@ -56,6 +56,7 @@ Java-DSA/
 - **Sorting:** Sorting algorithms like Merge Sort, Quick Sort, Bubble Sort, etc.
 - **Stack:** LIFO data structure and problem-solving.
 - **Tree:** Binary Trees, BST, AVL Trees, and Tree traversal techniques.
+- **Dynamic Programming:** Solving complex problems by breaking them down into simpler subproblems and storing their results to avoid re-computation (using memoization or tabulation).
 
 ## 🛠️ How to Run
 
