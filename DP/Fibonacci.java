@@ -12,7 +12,7 @@ class Fibonacci {
         return f[n];
     }
 
-    public static int fib(int n) {
+    public static int fib(int n) { //tabulation
         int sol[] = new int[n+1];
         sol[1] = 1;
 
@@ -22,7 +22,7 @@ class Fibonacci {
 
         return sol[n];
     }
-    public static void main(String[] args) { //tabulation
+    public static void main(String[] args) { 
         int n = 5;
         int f[] = new int[n+1];
         // System.out.println(findFibonacci(n, f));
