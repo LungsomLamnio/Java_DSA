@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.HashSet;
+
 class KnapsackRevision {
     public static int knapsackRecursion(int val[], int wt[], int W, int n) {
         if(n == 0 || W == 0) {
@@ -259,10 +262,44 @@ class KnapsackRevision {
         printDp(dp);
         return ans;
     }
+
+    public static int lcsArr(int arr1[], int arr2[]) {
+        int m = arr1.length;
+        int n = arr2.length;
+
+        int dp[][] = new int[m+1][n+1];
+        for(int i=1; i<m+1; i++) {
+            for(int j=1; j<n+1; j++) {
+                if(arr1[i-1] == arr2[j-1]) {
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+
+    public static int lis(int arr[]) {
+        HashSet<Integer> set = new HashSet<>();
+        for(int i=0; i<arr.length; i++) {
+            set.add(arr[i]);
+        }
+
+        int arr2[] = new int[set.size()];
+        int i = 0;
+        for (int num : set) {
+            arr2[i] = num;
+            i++;
+        }
+        Arrays.sort(arr2);
+
+        return lcsArr(arr, arr2);
+    }
     
     public static void main(String[] args) {
-        String str1 = "abcdgh";
-        String str2 = "acdghr";
-        System.out.println(lcSubstring(str1, str2));
+        int arr[] = {50, 3, 10, 7, 40, 80};
+        System.out.println(lis(arr));
     }
 }
