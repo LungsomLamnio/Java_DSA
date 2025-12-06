@@ -298,8 +298,65 @@ class KnapsackRevision {
         return lcsArr(arr, arr2);
     }
     
+    public static int editDistance(String str1, String str2) {
+        int m = str1.length();
+        int n = str2.length();
+
+        int dp[][] = new int[m+1][n+1];
+        for(int i=0; i<dp.length; i++) {
+            dp[i][0] = i;
+        }
+        for(int i=0; i<dp[0].length; i++) {
+            dp[0][i] = i;
+        }
+
+        for(int i=1; i<m+1; i++) {
+            for(int j=1; j<n+1; j++) {
+                if(str1.charAt(i-1) == str2.charAt(j-1)) {
+                    dp[i][j] = dp[i-1][j-1];
+                } else {
+                    //add
+                    int ans1 = dp[i][j-1] + 1;
+                    //replace
+                    int ans2 = dp[i-1][j-1] + 1;
+                    //delete
+                    int ans3 = dp[i-1][j] + 1;
+
+                    dp[i][j] = Math.min(Math.min(ans1, ans2), ans3);
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+
+    public static int lcs(String str1, String str2) {
+        int m = str1.length();
+        int n = str2.length();
+
+        int dp[][] = new int[m+1][n+1];
+        for(int i=1; i<m+1; i++) {
+            for(int j=1; j<n+1; j++) {
+                if(str1.charAt(i-1) == str2.charAt(j-1)) {
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+
+    public static int stringConversion(String str1, String str2) {
+        int lcs = lcs(str1, str2);
+        int ans = str2.length() - lcs;
+        return ans + lcs;
+    }
+
     public static void main(String[] args) {
-        int arr[] = {50, 3, 10, 7, 40, 80};
-        System.out.println(lis(arr));
+        String str1 = "pear";
+        String str2 = "sea";
+        System.out.println(stringConversion(str1, str2));
     }
 }
