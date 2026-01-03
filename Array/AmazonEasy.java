@@ -11,8 +11,21 @@ public class AmazonEasy {
 
         return i+1;
     }
+
+    // Remove Duplicates from Sorted Array with at most twice appearance of unique elements
+    public static int removeDuplicatesAtmost(int nums[]) {
+        int k = 2;
+        for(int i=2; i<nums.length; i++) {
+            if(nums[i] != nums[k-2]) {
+                nums[k] = nums[i];
+                k++;
+            }
+        }
+
+        return k;
+    }
     public static void main(String[] args) {
-        int nums[] = {0,1,1,1,2,2,3};
-        System.out.println(removeDuplicates(nums));
+        int nums[] = {1,1,1,2,2,3};
+        System.out.println(removeDuplicatesAtmost(nums));
     }
 }
