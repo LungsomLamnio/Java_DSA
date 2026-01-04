@@ -57,10 +57,33 @@ public class AmazonEasy {
         }
     }
 
+    public static int[][] pascalsTriangle(int n) {
+        int ans[][] = new int[n][n];
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<=i; j++) {
+                if(j == 0 || i == j) {
+                    ans[i][j] = 1;
+                } else {
+                    ans[i][j] = ans[i-1][j-1] + ans[i-1][j];
+                }
+            }
+        }
+        return ans;
+    }
+
+    public static void print2DArray(int arr[][]) {
+        for(int i=0; i<arr.length; i++) {
+            for(int j=0; j<arr[i].length; j++) {
+                System.out.print(arr[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
     public static void main(String[] args) {
-        int nums1[] = {1,2,3,0,0,0};
-        int nums2[] = {2,5,6};
-        mergeSortedArray(nums1, nums2, 3, 3);
-        printArray(nums1);
+        int n = 5;
+        int ans[][] = pascalsTriangle(n);
+        print2DArray(ans);
     }
 }
