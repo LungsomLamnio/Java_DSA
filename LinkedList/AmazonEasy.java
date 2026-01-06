@@ -44,12 +44,47 @@ public class AmazonEasy {
 
         return dummy.next;
     }
+
+    public static Node reverseLL(Node head) {
+        Node prev = null;
+        Node curr = head;
+
+        while(curr != null) {
+            Node next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        return prev;
+    }
+
+    public static boolean isPalindrome(Node head) {
+        Node slow = head;
+        Node fast = head;
+
+        while(fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        slow = reverseLL(slow);
+        fast = head;
+        
+        while(slow != null && fast != null) {
+            if(slow.val != fast.val) {
+                return false;
+            }
+            slow = slow.next;
+            fast = fast.next;
+        }
+
+        return true;
+    }
+    
     public static void main(String[] args) {
-        Node l1 = new Node(1, new Node(2, new Node(4)));
-        Node l2 = new Node(1, new Node(3, new Node(4)));
+        Node l1 = new Node(1, new Node(2, new Node(3, new Node(1))));
         printList(l1);
-        printList(l2);
-        Node ans = mergeList(l1, l2);
-        printList(ans);
+        System.out.println(isPalindrome(l1));
     }
 }
