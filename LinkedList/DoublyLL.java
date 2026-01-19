@@ -1,4 +1,3 @@
-package LinkedList;
 public class DoublyLL {
     public class Node {
         int data;
