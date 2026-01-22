@@ -24,8 +24,22 @@ public class AmazonMedium {
 
         return list;
     }
+
+    public static int kthLargestElement(int nums[], int k) {
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+
+        for(int num: nums) {
+            minHeap.add(num);
+        }
+
+        while(minHeap.size() != k) {
+            minHeap.remove();
+        }
+
+        return minHeap.peek();
+    }
     public static void main(String[] args) {
-        int arr[] = {1, 2, 3, 4, 5};
-        System.out.println(kClosestElements(arr, 4, 3));
+        int arr[] = {3,2,1,5,6,4};
+        System.out.println(kthLargestElement(arr, 2));
     }
 }
